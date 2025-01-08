@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import Register from "./pages/register";
+import Register from "./pages/register.jsx";
 import { ModalProvider } from "./context/ModalContext";
 import { SessionProvider } from "./context/SessionContext";
 import { ProtectedRoute } from "./context/ProtectedRoutes";
