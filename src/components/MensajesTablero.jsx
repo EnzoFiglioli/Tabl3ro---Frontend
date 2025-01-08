@@ -1,0 +1,90 @@
+import { useEffect, useState } from "react";
+import Tweet from "./Tweet";
+import InputMensaje from "./InputMensaje.jsx";
+import { handlerMessage } from "../handler/manejadorMensajes";
+import data from "../data/data.json";
+import Cookies from "universal-cookie";
+
+const MensajesTablero = () => {
+  const [mensajes, setMensajes] = useState([]);
+  const [session, setSession] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  const cookies = new Cookies();
+  
+  useEffect(() => {
+    const token = cookies.get("token");
+    setSession(!!token);
+    console.log(token);
+  }, []); 
+  
+  useEffect(() => {
+    handlerMessage(data)
+      .then((data) => {
+        setMensajes(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("No se pudo cargar los mensajes.");
+        setLoading(false);
+      });
+  }, []);
+
+  const formatearFecha = (fechaMensaje) => {
+    const fechaActual = new Date();
+    const fechaMsg = new Date(fechaMensaje);
+    const diferencia = fechaActual - fechaMsg;
+    const diasDiferencia = diferencia / (1000 * 3600 * 24);
+
+    if(fechaActual.getDate() == fechaMsg.getDate() && fechaActual.getDay() == fechaMsg.getDay &&
+        fechaActual.getFullYear() == fechaMsg.getFullYear()){
+        return "Hoy";
+    }
+
+    if (diasDiferencia < 7) {
+      return fechaMsg.toLocaleDateString();
+    }else {
+      const semanas = Math.floor(diasDiferencia / 7);
+      return `${semanas} semana(s) atrás`;
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  return (
+    <div className="mt-4">
+      {session ? 
+      (
+        <InputMensaje />
+      ) 
+      : 
+      ("")}
+      {mensajes.length > 0 ? (
+        mensajes.map((msg) => (
+          <Tweet
+            key={msg.id} // Usar una clave única si se tiene un ID
+            contenido={msg.contenido}
+            fecha={formatearFecha(msg.fecha)}
+            usuario={msg.usuario}
+            categoria={msg.categoria}
+            avatar={msg.avatar}
+          />
+        ))
+      ) : (
+        <img
+          src="https://i.pinimg.com/originals/65/ba/48/65ba488626025cff82f091336fbf94bb.gif"
+          alt="loader"
+        />
+      )}
+    </div>
+  );
+};
+
+export default MensajesTablero;
