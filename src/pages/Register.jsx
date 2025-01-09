@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import baseDir from "../path.js";
 
 export const Register = () => {
   const [formData, setFormData] = useState({

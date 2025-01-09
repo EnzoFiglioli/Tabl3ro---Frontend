@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useModal } from "../context/ModalContext";
 import { useSession } from "../context/SessionContext";
 import Cookies from "universal-cookie";
+import baseDir from "../path.js"
 
 const LoginModal = () => {
   const { isModalOpen, closeModal } = useModal();
@@ -16,7 +17,7 @@ const handleSubmit = async (e) => {
     setError("");
 
     try {
-        const response = await fetch("http://localhost:8080/api/usuarios/login", {
+        const response = await fetch(`${baseDir}/api/usuarios/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
