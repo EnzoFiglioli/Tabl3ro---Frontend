@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import baseDir from "../path.js";
+import {baseDir} from "../path.js";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,7 +44,7 @@ export const Register = () => {
       formDataToSend.append(key, formData[key]);
     }
 
-    fetch("http://localhost:8080/api/usuarios/", {
+    fetch(`${baseDir}/api/usuarios/`, {
       method: "POST",
       body: formDataToSend,
     })

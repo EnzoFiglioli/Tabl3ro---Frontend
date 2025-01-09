@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import { ModalProvider } from "./context/ModalContext";
 import { SessionProvider } from "./context/SessionContext";
-import { ProtectedRoute } from "./context/ProtectedRoutes";
-import {Register} from "./pages/Register";
+import Register from "./pages/Register.jsx";
 
 createRoot(document.getElementById("root")).render(
   <SessionProvider>
@@ -16,9 +15,7 @@ createRoot(document.getElementById("root")).render(
           <Route
             path="dashboard"
             element={
-              <ProtectedRoute>
                 <App />
-              </ProtectedRoute>
             }
           />
         </Routes>
