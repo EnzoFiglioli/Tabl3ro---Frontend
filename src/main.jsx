@@ -2,12 +2,12 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import { ModalProvider } from "./context/ModalContext";
-import { SessionProvider } from "./context/SessionContext";
+// import { SessionProvider } from "./context/SessionContext";
 // import { ProtectedRoute } from "./context/ProtectedRoutes";
 import Register from "./pages/Register.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <SessionProvider>
+  // <SessionProvider>
     <BrowserRouter>
       <ModalProvider>
         <Routes>
@@ -22,5 +22,5 @@ createRoot(document.getElementById("root")).render(
         </Routes>
       </ModalProvider>
     </BrowserRouter>
-  </SessionProvider>
+  // </SessionProvider>
 );
