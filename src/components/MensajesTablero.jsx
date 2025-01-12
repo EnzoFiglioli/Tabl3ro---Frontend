@@ -67,9 +67,9 @@ const MensajesTablero = () => {
       : 
       ("")}
       {mensajes.length > 0 ? (
-        mensajes.map((msg) => (
+        mensajes.map((msg, index) => (
           <Tweet
-            key={msg.id} // Usar una clave única si se tiene un ID
+            key={msg.id || index}
             contenido={msg.contenido}
             fecha={formatearFecha(msg.fecha)}
             usuario={msg.usuario}

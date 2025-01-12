@@ -1,5 +1,6 @@
 [
     {
+        "id":1,
         "contenido":"Mi primer Tweet",
         "fecha":"Tue Dec 31 2024 14:47:28 GMT-0300 (hora estándar de Argentina)",
         "usuario":"EnzoF96",
@@ -7,6 +8,7 @@
         "avatar":"https://enzo-figlioli.vercel.app/principal.png"
     },
     {
+        "id":2,
         "contenido":"Mi segundo Tweet", 
         "fecha":"Tue Dec 27 2024 14:47:28 GMT-0300 (hora estándar de Argentina)",
         "usuario":"EnzoF96",
@@ -14,6 +16,7 @@
         "avatar":"https://enzo-figlioli.vercel.app/principal.png"
     },
     {
+        "id":3,
         "contenido":"River tiene que ser campeon por el amor de diosRiver tiene que ser campeon por el amor de diosRiver tiene que ser campeon por el amor de diosRiver tiene que ser campeon por el amor de diosRiver tiene que ser campeon por el amor de diosRiver tiene que ser campeon por el amor de dios",
         "fecha":"Tue Nov 31 2024 14:47:28 GMT-0300 (hora estándar de Argentina)",
         "usuario":"EnzoF96",
@@ -21,6 +24,7 @@
         "avatar":"https://enzo-figlioli.vercel.app/principal.png"
     },
     {
+        "id":4,
         "contenido":"Boca es el mas grande", 
         "fecha":"Tue Oct 2 2024 14:47:28 GMT-0300 (hora estándar de Argentina)",
         "usuario":"Riquelme10",
