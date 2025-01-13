@@ -33,7 +33,7 @@ const LoginModal = () => {
         return response.json();
       })
       .then((userData) => {
-        const userSession = cookie.get("token");
+        const userSession = cookie.set("token",userData.token);
         console.log(userSession);
         setSession(true);
         setSessionData(userData.usuario);
