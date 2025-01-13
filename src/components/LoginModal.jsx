@@ -1,47 +1,46 @@
 import { useState } from "react";
 import { useModal } from "../context/ModalContext";
 import { useSession } from "../context/SessionContext";
-import Cookies from "universal-cookie";
 import { baseDir } from "../path.js";
+import { useNavigate, Link } from "react-router-dom";
 
 const LoginModal = () => {
   const { isModalOpen, closeModal } = useModal();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const cookie = new Cookies();
   const { setSession, setSessionData } = useSession();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    fetch(`${baseDir}/api/usuarios/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.msg || "Error al iniciar sesión");
-          });
-        }
-        return response.json();
-      })
-      .then((userData) => {
-        const userSession = cookie.set("token",userData.token);
-        console.log(userSession);
-        setSession(true);
-        setSessionData(userData.usuario);
-        window.location.href = "/dashboard";
-      })
-      .catch((err) => {
-        setError(err.message || "Error al conectar con el servidor");
+    try {
+      const response = await fetch(`${baseDir}/api/usuarios/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || "Error al iniciar sesión");
+      }
+
+      const userData = await response.json();
+      setSession(true);
+      setSessionData(userData.usuario);
+      closeModal(); // Cierra el modal
+      navigate("/dashboard"); // Redirige al dashboard o la ruta deseada
+    } catch (err) {
+      setError(err.message || "Error al conectar con el servidor");
+    }
   };
 
   if (!isModalOpen) return null;
@@ -54,6 +53,7 @@ const LoginModal = () => {
       >
         <button
           type="button"
+          aria-label="Cerrar"
           className="absolute top-4 right-4 p-2 text-black dark:text-white font-bold"
           onClick={closeModal}
         >
@@ -66,10 +66,11 @@ const LoginModal = () => {
         </label>
         <input
           id="email"
+          name="email"
           type="email"
           placeholder="ejemplo@correo.com"
           className="w-full p-2 border border-gray-300 rounded mt-2 text-black"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
           required
         />
         <label htmlFor="password" className="block dark:text-white mt-4">
@@ -77,10 +78,11 @@ const LoginModal = () => {
         </label>
         <input
           id="password"
+          name="password"
           type="password"
           placeholder="********"
           className="w-full p-2 border border-gray-300 rounded mt-2 text-black"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
           required
         />
         <button
@@ -91,9 +93,9 @@ const LoginModal = () => {
         </button>
         <p className="dark:text-white mt-4 text-sm">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
+          <Link to="/register" className="text-blue-500 hover:underline">
             Regístrate aquí
-          </a>.
+          </Link>.
         </p>
       </form>
     </div>
